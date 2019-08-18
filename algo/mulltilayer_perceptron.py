@@ -1,3 +1,4 @@
+
 from __future__ import division
 
 from itertools import izip as zip
@@ -30,9 +31,13 @@ def train( I, T, W ):
 
 	for epoch in range(EPOCHS):
 
+		# activated outputs of all layers
 		A = predict(I, W)
+
+		# error at final layer
 		e = T-A[-1]
 
+		# validation error
 		verror = round(np.sum( square(e) ), 3)
 		print "epoch", epoch, " validation error :", verror
 		if verror<0.001:
@@ -41,12 +46,18 @@ def train( I, T, W ):
 
 		for x in range(1, len(W)+1):
 
+			# i - input to the layer
 			i = A[-(x+1)] if x<len(W) else I
-			a = A[-x]
+			# o - output from the layer
+			o = A[-x]
+			# w - weights of the layer
 			w = W[-x]
-			e = e*(1-a)*a
+			# e - error of the layer
+			e = e*(1-o)*o
 
+			# updating weights of the layer
 			W[-x] += LR*np.dot( np.transpose(i), e )
+			# error for next layer
 			e = np.dot( e, np.transpose(w) )
 	
 	return W
@@ -54,7 +65,9 @@ def train( I, T, W ):
 
 if __name__ == "__main__":
 
+	# input to mlp
 	I = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+	# expected output
 	T = np.array([[1], [0], [0], [1]])
 
 	layers = [3, 3]
