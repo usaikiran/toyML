@@ -17,21 +17,21 @@ square = np.vectorize( lambda x: x*x )
 
 class MultilayerPerceptron:
 
-	def __init__( self, inputNodes, targetVector ):
+	def __init__( self, inpDim, targetVector ):
 
-		self.inputNodes = inputNodes
+		self.inpDim = inpDim
 		self.T = targetVector
 
-		self.__generateWeights__()
+		__generateWeights__()
 
 	
-	def __generateWeights__(self):
+	def __generateWeights__():
 
 		layers = [3, 3]
 		layers.append(self.T.shape[1])
 		self.W = []
 
-		inputNodes = self.inputNodes
+		inputNodes = self.inpDim
 		for w in layers:
 			self.W.append( np.array( [ [ ( random()-0.5)*0.2 for x in range(w) ] for x in range(inputNodes) ] ) )
 			inputNodes = w
@@ -49,6 +49,8 @@ class MultilayerPerceptron:
 
 
 	def train( self, I ):
+
+		__generateWeights__()
 
 		for epoch in range(EPOCHS):
 
@@ -92,7 +94,7 @@ if __name__ == "__main__":
 	# input to mlp
 	I = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
 	# expected output
-	T = np.array([[1], [0], [0], [1]])
+	T = np.array([[0], [1], [0], [1]])
 
 	perceptron = MultilayerPerceptron( 2, T )
 	perceptron.train( I )
