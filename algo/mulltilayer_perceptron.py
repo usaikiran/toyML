@@ -14,7 +14,6 @@ BIAS = -1
 activate = np.vectorize(lambda x: 1/( 1+math.exp(-x) ) )
 square = np.vectorize( lambda x: x*x )
 
-round = lambda x,n : int(x*(10**n)) / (10**n)
 
 def predict( I, H ):
 
