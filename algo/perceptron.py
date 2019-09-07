@@ -8,29 +8,41 @@ lr = 0.05
 activate = np.vectorize( lambda x : 1 if x>0.5 else 0 )
 
 
-def predict( I, W ):
+class Perceptron:
 
-    Y = np.dot( I, np.transpose(W) )
-    return activate(Y)
+    def __init__( self, inputSize, targetVector ):
+
+        self.inputSize = inputSize
+        self.targetVector = targetVector
+
+        self.__generateWeights__()
 
 
-def train( I, W, T ):
+    def __generateWeights__(self):
 
-    for e in range( epochs ):
+        self.weights = np.array( [ [ (random()-0.5)*2 for x in range(0, self.inputSize) ] ]*self.targetVector.shape[1] )
 
-        A = predict( I, W )
-        E = T - A
-        W = W + np.dot( np.transpose(E), I )*lr
 
-    return W
+    def predict( self, inputVector ):
+
+        Y = np.dot( inputVector, np.transpose(self.weights) )
+        return activate(Y)
+
+
+    def train( self, inputVector ):
+
+        for e in range( epochs ):
+
+            A = self.predict( inputVector )
+            E = self.targetVector - A
+            self.weights = self.weights + np.dot( np.transpose(E), inputVector )*lr
 
 
 if __name__ == "__main__":
 
     I = np.array( [ [0, 0], [0, 1], [1, 0], [1, 1] ] )
-    T = np.array( [ [0], [0], [0], [1] ] )
-    W = np.array( [ [ (random()-0.5)*2 for x in range(0, I.shape[1]) ] ]*T.shape[1] )
+    T = np.array( [ [1], [0], [0], [1] ] )
 
-    W = train( I, W, T )
-    print "WEIGHTS : ", W
-    print predict( [ [0, 0], [0, 1], [1, 0], [1, 1] ], W )
+    perceptron = Perceptron( 2, T )
+    perceptron.train( I )
+    print perceptron.predict( I )
