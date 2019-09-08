@@ -17,10 +17,10 @@ class Perceptron:
         self.inpDim = inpDim
         self.targetVector = targetVector
 
-        __generateWeights__()
+        self.__generateWeights__()
 
 
-    def __generateWeights__():
+    def __generateWeights__(self):
 
         self.weights = np.array( [ [ (random()-0.5)*2 for x in range(0, self.inpDim) ] ]*self.targetVector.shape[1] )
 
@@ -28,7 +28,7 @@ class Perceptron:
     def predict( self, inputVector ):
 
         Y = np.dot( inputVector, np.transpose(self.weights) )
-        return activate(Y+BIAS)
+        return activate(Y)
 
 
     def train( self, inputVector ):
@@ -43,7 +43,7 @@ class Perceptron:
 if __name__ == "__main__":
 
     I = np.array( [ [0, 0], [0, 1], [1, 0], [1, 1] ] )
-    T = np.array( [ [1], [1], [1], [0] ] )
+    T = np.array( [ [0], [1], [1], [1] ] )
 
     perceptron = Perceptron( 2, T )
     perceptron.train( I )

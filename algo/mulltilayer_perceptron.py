@@ -22,10 +22,10 @@ class MultilayerPerceptron:
 		self.inpDim = inpDim
 		self.T = targetVector
 
-		__generateWeights__()
+		self.__generateWeights__()
 
 	
-	def __generateWeights__():
+	def __generateWeights__(self):
 
 		layers = [3, 3]
 		layers.append(self.T.shape[1])
@@ -50,7 +50,7 @@ class MultilayerPerceptron:
 
 	def train( self, I ):
 
-		__generateWeights__()
+		self.__generateWeights__()
 
 		for epoch in range(EPOCHS):
 
@@ -94,7 +94,7 @@ if __name__ == "__main__":
 	# input to mlp
 	I = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
 	# expected output
-	T = np.array([[0], [1], [0], [1]])
+	T = np.array([[1], [0], [0], [0]])
 
 	perceptron = MultilayerPerceptron( 2, T )
 	perceptron.train( I )
