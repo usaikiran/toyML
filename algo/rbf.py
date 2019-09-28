@@ -6,8 +6,6 @@ import numpy as np
 from random import random
 import math
 
-from mulltilayer_perceptron import MultilayerPerceptron
-
 
 SIGMA = 0.5
 
