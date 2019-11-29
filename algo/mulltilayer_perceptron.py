@@ -99,3 +99,4 @@ if __name__ == "__main__":
 	perceptron = MultilayerPerceptron( 2, T )
 	perceptron.train( I )
 	print perceptron.predict( I )[-1]
+	
