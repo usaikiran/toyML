@@ -1,43 +1,39 @@
+import random
+
 import numpy as np
 
 
-def __activate(outputs, threshold):
-    return (outputs > threshold) * 1
+class Perceptron:
 
+    def __init__(self, inputs, targets):
+        self.epochs = 50
+        self.learning_rate = 0.001
+        self.weights = None
+        self.activation_threshold = 0.5
+        self.inputs = inputs
+        self.targets = targets
 
-def __derive_accuracy(outputs, target):
-    return np.count_nonzero((target - outputs) == 0)/outputs.shape[0]
+    def __activate(self, outputs):
+        return (outputs > self.activation_threshold) * 1
 
+    def __generate_weights(self):
+        return [[random.random() for _ in range(0, self.targets.shape[1])]] * self.inputs.shape[1]
 
-def train(inputs, target, threshold):
-    weights = np.array([[0.5], [0.5]])
-    learning_rate = 0.001
+    def predict(self):
+        return self.__activate(np.dot(self.inputs, self.weights))
 
-    max_iterations = 300
-    iterations = 0
-    accuracy = 0
-
-    while accuracy < 0.8 and iterations < max_iterations:
-        outputs = __activate(np.dot(inputs, weights), threshold)
-        delta = np.subtract(target, outputs)
-        aggregated_delta = np.dot(inputs.transpose(), delta) * learning_rate
-        weights = weights + aggregated_delta
-        iterations += 1
-        accuracy = __derive_accuracy(outputs, target)
-
-    print("\niterations: ", iterations, ", accuracy: ", accuracy)
-    return weights
+    def train(self):
+        self.weights = self.__generate_weights()
+        for i in range(self.epochs):
+            errors = np.subtract(self.targets, self.predict())
+            delta = np.dot(self.inputs.transpose(), errors) * self.learning_rate
+            self.weights = self.weights + delta
 
 
 if __name__ == '__main__':
     inputs = np.array([[0, 1], [1, 0], [1, 1], [0, 0]])
-    target = np.array([[1], [1], [1], [0]])
-    threshold = 0.7
+    targets = np.array([[1], [1], [1], [0]])
 
-    weights = train(inputs, target, threshold)
-    out = np.dot(inputs, weights)
-    res = __activate(out, threshold)
-
-    print("\nweights:", weights)
-    print("\nout:", out)
-    print("\nres:", res)
+    model = Perceptron(inputs, targets)
+    model.train()
+    print(model.predict())
