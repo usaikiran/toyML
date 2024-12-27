@@ -6,8 +6,8 @@ import numpy as np
 class Perceptron:
 
     def __init__(self, inputs, targets):
-        self.epochs = 50
-        self.learning_rate = 0.001
+        self.epochs = 100
+        self.learning_rate = 0.01
         self.weights = None
         self.activation_threshold = 0.5
         self.inputs = inputs
@@ -32,7 +32,7 @@ class Perceptron:
 
 if __name__ == '__main__':
     inputs = np.array([[0, 1], [1, 0], [1, 1], [0, 0]])
-    targets = np.array([[1], [1], [1], [0]])
+    targets = np.array([[0], [0], [1], [0]])
 
     model = Perceptron(inputs, targets)
     model.train()
